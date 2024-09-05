@@ -6,6 +6,8 @@ use Stripe\Charge;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class PaymentController extends Controller
 {
@@ -20,7 +22,6 @@ class PaymentController extends Controller
             'stripeToken' => 'required|string',
         ]);
 
-        // Get the authenticated user
         $user = Auth::user();
 
         if (!$user) {
@@ -39,21 +40,19 @@ class PaymentController extends Controller
                 'description' => 'Monthly Subscription',
             ]);
 
-            // Update user status
             $user->is_active = true;
             $user->subscription_ends_at = now()->addMonth();
+           
+
+            DB::table('payments')->insert([
+                'user_id' => $user->id,
+                'amount' => 1000,
+                'stripe_payment_id' => $charge->id,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
             $user->save();
-
-        \DB::table('payments')->insert([
-            'user_id' => $user->id,
-            'amount' => 1000,
-            'currency' => 'usd',
-            'stripe_charge_id' => $charge->id,
-            'description' => 'Monthly Subscription',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
             return redirect()->route('dashboard')->with('success', 'Payment successful, your subscription is active!');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Payment failed. Please try again.']);

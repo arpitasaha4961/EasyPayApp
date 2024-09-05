@@ -27,7 +27,7 @@
                     </ul>
 
                     <!-- If user is not active, show the button to make payment -->
-                    @if (!auth()->user()->is_active)
+                    @if (!auth()->user())
                         <a href="{{ route('payment') }}" class="btn btn-primary">
                             Activate Subscription ($10/month)
                         </a>

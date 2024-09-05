@@ -13,7 +13,6 @@ class ReportController extends Controller
     {
         $user = Auth::user();
 
-        // Fetch all payments made by the user in the last month
         $payments = $user->payments()
                          ->whereMonth('created_at', Carbon::now()->month)
                          ->get();

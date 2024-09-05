@@ -25,8 +25,7 @@
                             {{ auth()->user()->subscription_ends_at ? auth()->user()->subscription_ends_at->format('M d, Y') : 'Not Subscribed' }}
                         </li>
                     </ul>
-
-                    <!-- If user is not active, show the button to make payment -->
+                    
                     @if (!auth()->user())
                         <a href="{{ route('payment') }}" class="btn btn-primary">
                             Activate Subscription ($10/month)

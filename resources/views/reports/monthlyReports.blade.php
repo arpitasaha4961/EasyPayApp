@@ -12,7 +12,6 @@
                 <tr>
                     <th>Date</th>
                     <th>Amount</th>
-                    <th>Transaction ID</th>
                 </tr>
             </thead>
             <tbody>

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Container\Attributes\Auth;
 
 Route::get('/', function () {
@@ -22,5 +23,6 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('dashboard', [AuthController::class, 'deshboard'])->name('dashboard');
 Route::get('/payment', [PaymentController::class, 'showPaymentForm'])->name('payment');
 Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('processPayment');
+Route::get('/monthly-report', [ReportController::class, 'monthlyReport'])->name('monthlyReport');
 });
 

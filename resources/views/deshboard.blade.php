@@ -15,6 +15,7 @@
 
                     <h4>Welcome, {{ auth()->user()->name }}!</h4>
                     <p>Subscription Status: {{ auth()->user()->is_active ? 'Active' : 'Inactive' }}</p>
+                    <a href="{{ route('monthlyReport') }}" class="btn btn-primary mt-3">View Monthly Payment Report</a>
 
                     <h5>Account Information</h5>
                     <ul>

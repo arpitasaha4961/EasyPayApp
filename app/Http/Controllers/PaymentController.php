@@ -27,11 +27,11 @@ class PaymentController extends Controller
             return back()->withErrors(['error' => 'User not found or not authenticated.']);
         }
 
-        // Set Stripe API key
+
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
         try {
-            // Charge the user
+        
             $charge = Charge::create([
                 'amount' => 1000, // $10 in cents
                 'currency' => 'usd',
@@ -43,6 +43,16 @@ class PaymentController extends Controller
             $user->is_active = true;
             $user->subscription_ends_at = now()->addMonth();
             $user->save();
+
+        \DB::table('payments')->insert([
+            'user_id' => $user->id,
+            'amount' => 1000,
+            'currency' => 'usd',
+            'stripe_charge_id' => $charge->id,
+            'description' => 'Monthly Subscription',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
             return redirect()->route('dashboard')->with('success', 'Payment successful, your subscription is active!');
         } catch (\Exception $e) {
